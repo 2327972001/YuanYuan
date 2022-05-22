@@ -67,6 +67,17 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!--订单-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>zym-order</artifactId>
+        </dependency>
+
+        <!--商品-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>zym-goods</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -199,6 +199,20 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 订单-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>zym-order</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 商品-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>zym-goods</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -209,6 +223,8 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>zym-order</module>
+        <module>zym-goods</module>
     </modules>
     <packaging>pom</packaging>
 
