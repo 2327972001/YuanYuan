@@ -1,9 +1,14 @@
 package com.ruoyi.web.controller.system;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.service.ISysNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -42,6 +47,9 @@ public class SysIndexController extends BaseController
 
     @Autowired
     private SysPasswordService passwordService;
+
+    @Autowired
+    private ISysNoticeService noticeService;
 
     // 系统首页
     @GetMapping("/index")
@@ -130,7 +138,26 @@ public class SysIndexController extends BaseController
     @GetMapping("/system/main")
     public String main(ModelMap mmap)
     {
+        SysUser user = getSysUser();
         mmap.put("version", RuoYiConfig.getVersion());
+        mmap.put("user", user);
+
+        //获取公告
+        List<SysNotice> noticeList = noticeService.selectNoticeList(new SysNotice());
+        List<SysNotice> noticeList1 = new ArrayList<>();
+        for (int i = 0; i < noticeList.size(); i++) {
+            if(noticeList.get(i).getNoticeType().equals("2") && noticeList.get(i).getStatus().equals("0")){
+                noticeList1.add(noticeList.get(i));
+            }
+        }
+        //转化时间格式
+        for (int i = 0; i < noticeList1.size(); i++) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String date = sdf.format(noticeList1.get(i).getCreateTime());
+            noticeList1.get(i).setTime(date);
+        }
+        mmap.put("noticeList", noticeList1);
+
         return "zym_main";
     }
 
