@@ -8,7 +8,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.domain.ZymOrder;
 import com.ruoyi.system.service.ISysNoticeService;
+import com.ruoyi.system.service.IZymOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -50,6 +52,9 @@ public class SysIndexController extends BaseController
 
     @Autowired
     private ISysNoticeService noticeService;
+
+    @Autowired
+    private IZymOrderService zymOrderService;
 
     // 系统首页
     @GetMapping("/index")
@@ -157,6 +162,11 @@ public class SysIndexController extends BaseController
             noticeList1.get(i).setTime(date);
         }
         mmap.put("noticeList", noticeList1);
+
+        //获取订单总数量
+        List<ZymOrder> orderList = zymOrderService.selectZymOrderList(new ZymOrder());
+        mmap.put("orderSize", orderList.size());
+
 
         return "zym_main";
     }
