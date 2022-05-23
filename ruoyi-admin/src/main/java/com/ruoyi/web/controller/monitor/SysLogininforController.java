@@ -1,9 +1,21 @@
 package com.ruoyi.web.controller.monitor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.mysql.cj.protocol.x.Notice;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.PageDomain;
+import com.ruoyi.common.core.page.TableSupport;
+import com.ruoyi.common.utils.sql.SqlUtil;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +59,29 @@ public class SysLogininforController extends BaseController
     @ResponseBody
     public TableDataInfo list(SysLogininfor logininfor)
     {
-        startPage();
-        List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
-        return getDataTable(list);
+        SysUser sysUser = getSysUser();
+        //判断是否为超级管理员
+        if(sysUser.getUserName().equals("admin") || sysUser.getRoles().get(0).getRoleId() == 1){
+            startPage();
+            List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
+            return getDataTable(list);
+        }else{
+            PageDomain pageDomain = TableSupport.buildPageRequest();
+            Integer pageNum = pageDomain.getPageNum();
+            Integer pageSize = pageDomain.getPageSize();
+            //过滤数据
+            List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
+            List<SysLogininfor> list1 = new ArrayList<>();
+            for (SysLogininfor sysLogininfor : list) {
+                if(sysLogininfor.getLoginName().equals(sysUser.getLoginName())){
+                    list1.add(sysLogininfor);
+                }
+            }
+            //获取处理好的list集合
+            int num = list1.size();
+            list1 = list1.stream().skip((pageNum - 1) * pageSize).limit(pageSize).collect(Collectors.toList());
+            return getDataTableList(list1,num);
+        }
     }
 
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)

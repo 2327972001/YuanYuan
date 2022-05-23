@@ -118,6 +118,19 @@ public class BaseController
     }
 
     /**
+     * ZouYangMing
+     * 响应请求List分页数据
+     */
+    protected TableDataInfo getDataTableList(List<?> list, int total)
+    {
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(0);
+        rspData.setRows(list);
+        rspData.setTotal(total);
+        return rspData;
+    }
+
+    /**
      * 响应返回结果
      * 
      * @param rows 影响行数
