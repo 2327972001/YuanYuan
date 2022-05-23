@@ -23,6 +23,12 @@
             <artifactId>ruoyi-common</artifactId>
             <version>${ruoyi.version}</version>
         </dependency>
+        <!-- 商品模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>zym-goods</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
