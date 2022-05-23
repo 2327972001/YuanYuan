@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ZymOrderMapper">
+    
+    <resultMap type="ZymOrder" id="ZymOrderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderPlatform"    column="order_platform"    />
+        <result property="orderUser"    column="order_user"    />
+        <result property="orderCourse"    column="order_course"    />
+        <result property="orderMoney"    column="order_money"    />
+        <result property="orderState"    column="order_state"    />
+        <result property="orderEnter"    column="order_enter"    />
+        <result property="orderText"    column="order_text"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectZymOrderVo">
+        select order_id, order_platform, order_user, order_course, order_money, order_state, order_enter, order_text, order_time, user_id from zym_order
+    </sql>
+
+    <select id="selectZymOrderList" parameterType="ZymOrder" resultMap="ZymOrderResult">
+        <include refid="selectZymOrderVo"/>
+        <where>  
+            <if test="orderPlatform != null  and orderPlatform != ''"> and order_platform = #{orderPlatform}</if>
+            <if test="orderUser != null  and orderUser != ''"> and order_user = #{orderUser}</if>
+            <if test="orderCourse != null  and orderCourse != ''"> and order_course = #{orderCourse}</if>
+            <if test="orderMoney != null "> and order_money = #{orderMoney}</if>
+            <if test="orderState != null  and orderState != ''"> and order_state = #{orderState}</if>
+            <if test="orderEnter != null  and orderEnter != ''"> and order_enter = #{orderEnter}</if>
+            <if test="orderText != null  and orderText != ''"> and order_text = #{orderText}</if>
+            <if test="orderTime != null "> and order_time = #{orderTime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectZymOrderByOrderId" parameterType="Integer" resultMap="ZymOrderResult">
+        <include refid="selectZymOrderVo"/>
+        where order_id = #{orderId}
+    </select>
+        
+    <insert id="insertZymOrder" parameterType="ZymOrder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into zym_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderPlatform != null">order_platform,</if>
+            <if test="orderUser != null">order_user,</if>
+            <if test="orderCourse != null">order_course,</if>
+            <if test="orderMoney != null">order_money,</if>
+            <if test="orderState != null">order_state,</if>
+            <if test="orderEnter != null">order_enter,</if>
+            <if test="orderText != null">order_text,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderPlatform != null">#{orderPlatform},</if>
+            <if test="orderUser != null">#{orderUser},</if>
+            <if test="orderCourse != null">#{orderCourse},</if>
+            <if test="orderMoney != null">#{orderMoney},</if>
+            <if test="orderState != null">#{orderState},</if>
+            <if test="orderEnter != null">#{orderEnter},</if>
+            <if test="orderText != null">#{orderText},</if>
+            <if test="orderTime != null">#{orderTime},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZymOrder" parameterType="ZymOrder">
+        update zym_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderPlatform != null">order_platform = #{orderPlatform},</if>
+            <if test="orderUser != null">order_user = #{orderUser},</if>
+            <if test="orderCourse != null">order_course = #{orderCourse},</if>
+            <if test="orderMoney != null">order_money = #{orderMoney},</if>
+            <if test="orderState != null">order_state = #{orderState},</if>
+            <if test="orderEnter != null">order_enter = #{orderEnter},</if>
+            <if test="orderText != null">order_text = #{orderText},</if>
+            <if test="orderTime != null">order_time = #{orderTime},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteZymOrderByOrderId" parameterType="Integer">
+        delete from zym_order where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteZymOrderByOrderIds" parameterType="String">
+        delete from zym_order where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+</mapper>
