@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,9 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.shiro.service.SysRegisterService;
 import com.ruoyi.system.service.ISysConfigService;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 注册验证
@@ -51,6 +54,8 @@ public class SysRegisterController extends BaseController
             return error("邀请码不存在！");
         }
         user.setDeptId(205L);
+        Long[] ids = {104L};
+        user.setRoleIds(ids);
         user.setCreateBy(userService.selectUserById(user_sj_id).getLoginName());
         user.setCreateTime(new Date());
         String msg = registerService.register(user);
