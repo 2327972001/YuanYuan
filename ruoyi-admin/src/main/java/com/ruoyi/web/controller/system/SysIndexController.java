@@ -232,6 +232,8 @@ public class SysIndexController extends BaseController
         }
         mmap.put("denglu",userNames1.size());
 
+        mmap.put("user_id", user.getUserId()+15487);
+
 
         return "zym_main";
     }
