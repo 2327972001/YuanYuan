@@ -1,16 +1,16 @@
 package com.ruoyi.web.controller.system;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.SysLogininfor;
 import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.domain.ZymDaili;
 import com.ruoyi.system.domain.ZymOrder;
-import com.ruoyi.system.service.ISysNoticeService;
-import com.ruoyi.system.service.IZymOrderService;
+import com.ruoyi.system.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,8 +30,6 @@ import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
-import com.ruoyi.system.service.ISysConfigService;
-import com.ruoyi.system.service.ISysMenuService;
 
 /**
  * 首页 业务处理
@@ -55,6 +53,19 @@ public class SysIndexController extends BaseController
 
     @Autowired
     private IZymOrderService zymOrderService;
+
+    @Autowired
+    private ISysDeptService deptService;
+
+    @Autowired
+    private IZymDailiService dailiService;
+
+    @Autowired
+    private ISysUserService userService;
+
+    @Autowired
+    private ISysLogininforService logininforService;
+
 
     // 系统首页
     @GetMapping("/index")
@@ -166,6 +177,60 @@ public class SysIndexController extends BaseController
         //获取订单总数量
         List<ZymOrder> orderList = zymOrderService.selectZymOrderList(new ZymOrder());
         mmap.put("orderSize", orderList.size());
+
+        //获取用户费率
+        List<ZymDaili> dailis = dailiService.selectZymDailiList(new ZymDaili());
+        for (int i = 0; i < dailis.size(); i++) {
+            if(dailis.get(i).getDaili().equals(deptService.selectDeptById(user.getDeptId()).getDeptName())){
+                mmap.put("daili_money",dailis.get(i).getMoney()+"%");
+            }
+        }
+        if(mmap.get("daili_money")==null){
+            mmap.put("daili_money","无");
+        }
+
+        //获取代理总数
+        List<SysUser> users = userService.selectUserList(new SysUser());
+        int dailisize = 0;
+        for (int i = 0; i < users.size(); i++) {
+            if(!deptService.selectDeptById(users.get(i).getDeptId()).getDeptName().equals("管理部门") && !deptService.selectDeptById(users.get(i).getDeptId()).getDeptName().equals("普通部门")){
+                dailisize++;
+            };
+        }
+        mmap.put("daili_size",dailisize);
+
+        //判断今天注册的用户数量
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date zero = calendar.getTime();
+        List<SysUser> users1 = userService.selectUserList(new SysUser());
+        int zhuce = 0;
+        for (int i = 0; i < users1.size(); i++) {
+            if(users1.get(i).getCreateTime().getTime()>=zero.getTime()){
+                zhuce++;
+            }
+        }
+        mmap.put("zhuce",zhuce);
+
+        //判断今天登录的用户数量
+        List<SysLogininfor> loginLogs = logininforService.selectLogininforList(new SysLogininfor());
+        List<String> userNames = new ArrayList<>();
+        for (int i = 0; i < loginLogs.size(); i++) {
+            if(loginLogs.get(i).getLoginTime().getTime()>=zero.getTime()){
+                userNames.add(loginLogs.get(i).getLoginName());
+            }
+        }
+        List<String> userNames1 = new ArrayList<>();
+        for (int i = 0; i < userNames.size(); i++) {
+            if(!userNames1.contains(userNames.get(i))){
+                userNames1.add(userNames.get(i));
+            }
+        }
+        mmap.put("denglu",userNames1.size());
 
 
         return "zym_main";

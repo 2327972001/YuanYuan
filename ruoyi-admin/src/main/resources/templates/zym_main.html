@@ -22,7 +22,7 @@
                     </div>
                     <div class="ibox-content no-padding">
 						<div class="panel-body">
-							我的费率：<span class="label label-primary">0.00%</span>
+							我的费率：<span class="label label-primary" th:text="${daili_money}">无</span>
 						</div>
                     </div>
                 </div>
@@ -62,10 +62,9 @@
 					</div>
 					<div class="ibox-content no-padding">
 						<div class="panel-body">
-							<div style="margin: 5px 0px">代理总数：<span class="label label-primary">1 人</span></div>
-							<div style="margin: 5px 0px">今日代理注册：<span class="label label-primary">1 人</span></div>
-							<div style="margin: 5px 0px">今日代理登录：<span class="label label-primary">1 人</span></div>
-							<div style="margin: 5px 0px">今日代理下单：<span class="label label-primary">1 单</span></div>
+							<div style="margin: 5px 0px">代理总数：<span class="label label-primary">[[${daili_size}]] 人</span></div>
+							<div style="margin: 5px 0px">今日代理注册：<span class="label label-primary">[[${zhuce}]] 人</span></div>
+							<div style="margin: 5px 0px">今日代理登录：<span class="label label-primary">[[${denglu}]] 人</span></div>
 						</div>
 					</div>
 				</div>
