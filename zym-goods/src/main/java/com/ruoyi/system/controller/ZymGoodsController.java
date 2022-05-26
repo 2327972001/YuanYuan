@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 商品列表Controller
  * 
  * @author ruoyi
- * @date 2022-05-22
+ * @date 2022-05-26
  */
 @Controller
 @RequestMapping("/goods/management")

@@ -7,7 +7,7 @@ import com.ruoyi.system.domain.ZymGoods;
  * 商品列表Service接口
  * 
  * @author ruoyi
- * @date 2022-05-22
+ * @date 2022-05-26
  */
 public interface IZymGoodsService 
 {

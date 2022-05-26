@@ -19,26 +19,6 @@
                                 <input type="text" name="goodsMoney"/>
                             </li>
                             <li>
-                                <label>一级代理费率：</label>
-                                <input type="text" name="goodsDaili1"/>
-                            </li>
-                            <li>
-                                <label>二级代理费率：</label>
-                                <input type="text" name="goodsDaili2"/>
-                            </li>
-                            <li>
-                                <label>三级代理费率：</label>
-                                <input type="text" name="goodsDaili3"/>
-                            </li>
-                            <li>
-                                <label>四级代理费率：</label>
-                                <input type="text" name="goodsDaili4"/>
-                            </li>
-                            <li>
-                                <label>五级代理费率：</label>
-                                <input type="text" name="goodsDaili5"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -70,6 +50,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('goods:management:edit')}]];
         var removeFlag = [[${@permission.hasPermi('goods:management:remove')}]];
+        var goodsIdDatas = [[${@dict.getType('${column.dictType}')}]];
         var prefix = ctx + "goods/management";
 
         $(function() {
@@ -95,26 +76,6 @@
                 {
                     field: 'goodsMoney',
                     title: '售价'
-                },
-                {
-                    field: 'goodsDaili1',
-                    title: '一级代理费率'
-                },
-                {
-                    field: 'goodsDaili2',
-                    title: '二级代理费率'
-                },
-                {
-                    field: 'goodsDaili3',
-                    title: '三级代理费率'
-                },
-                {
-                    field: 'goodsDaili4',
-                    title: '四级代理费率'
-                },
-                {
-                    field: 'goodsDaili5',
-                    title: '五级代理费率'
                 },
                 {
                     title: '操作',

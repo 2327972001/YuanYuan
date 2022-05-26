@@ -8,15 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="goodsId"    column="goods_id"    />
         <result property="goodsName"    column="goods_name"    />
         <result property="goodsMoney"    column="goods_money"    />
-        <result property="goodsDaili1"    column="goods_daili_1"    />
-        <result property="goodsDaili2"    column="goods_daili_2"    />
-        <result property="goodsDaili3"    column="goods_daili_3"    />
-        <result property="goodsDaili4"    column="goods_daili_4"    />
-        <result property="goodsDaili5"    column="goods_daili_5"    />
     </resultMap>
 
     <sql id="selectZymGoodsVo">
-        select goods_id, goods_name, goods_money, goods_daili_1, goods_daili_2, goods_daili_3, goods_daili_4, goods_daili_5 from zym_goods
+        select goods_id, goods_name, goods_money from zym_goods
     </sql>
 
     <select id="selectZymGoodsList" parameterType="ZymGoods" resultMap="ZymGoodsResult">
@@ -24,11 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
             <if test="goodsMoney != null "> and goods_money = #{goodsMoney}</if>
-            <if test="goodsDaili1 != null "> and goods_daili_1 = #{goodsDaili1}</if>
-            <if test="goodsDaili2 != null "> and goods_daili_2 = #{goodsDaili2}</if>
-            <if test="goodsDaili3 != null "> and goods_daili_3 = #{goodsDaili3}</if>
-            <if test="goodsDaili4 != null "> and goods_daili_4 = #{goodsDaili4}</if>
-            <if test="goodsDaili5 != null "> and goods_daili_5 = #{goodsDaili5}</if>
         </where>
     </select>
     
@@ -42,20 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="goodsName != null">goods_name,</if>
             <if test="goodsMoney != null">goods_money,</if>
-            <if test="goodsDaili1 != null">goods_daili_1,</if>
-            <if test="goodsDaili2 != null">goods_daili_2,</if>
-            <if test="goodsDaili3 != null">goods_daili_3,</if>
-            <if test="goodsDaili4 != null">goods_daili_4,</if>
-            <if test="goodsDaili5 != null">goods_daili_5,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="goodsName != null">#{goodsName},</if>
             <if test="goodsMoney != null">#{goodsMoney},</if>
-            <if test="goodsDaili1 != null">#{goodsDaili1},</if>
-            <if test="goodsDaili2 != null">#{goodsDaili2},</if>
-            <if test="goodsDaili3 != null">#{goodsDaili3},</if>
-            <if test="goodsDaili4 != null">#{goodsDaili4},</if>
-            <if test="goodsDaili5 != null">#{goodsDaili5},</if>
          </trim>
     </insert>
 
@@ -64,11 +44,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="goodsName != null">goods_name = #{goodsName},</if>
             <if test="goodsMoney != null">goods_money = #{goodsMoney},</if>
-            <if test="goodsDaili1 != null">goods_daili_1 = #{goodsDaili1},</if>
-            <if test="goodsDaili2 != null">goods_daili_2 = #{goodsDaili2},</if>
-            <if test="goodsDaili3 != null">goods_daili_3 = #{goodsDaili3},</if>
-            <if test="goodsDaili4 != null">goods_daili_4 = #{goodsDaili4},</if>
-            <if test="goodsDaili5 != null">goods_daili_5 = #{goodsDaili5},</if>
         </trim>
         where goods_id = #{goodsId}
     </update>
